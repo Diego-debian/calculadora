@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<link rel="stylesheet" href="./display-styles.css">-->
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            background: aquamarine;
+            margin: 1%;
+            border: 3px solid burlywood;
+        }
+
+        body {
+            background-color: bisque;
+            padding: 40px;
+        }
+
+        .caja-1 {
+            background-color: cadetblue;
+            margin-left: 20%;
+            margin-right: 25%;
+            border-radius: 40px;
+            padding-bottom: 5px;
+            box-shadow: 12px 12px 12px rgb(64, 78, 78);
+            border: 3px solid black;
+        }
+
+        .caja-1a {
+            background-color: burlywood;
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 40px;
+        }
+
+        .caja-1a h1 {
+            text-align: center;
+            text-shadow: 2px 2px 6px black;
+            font-size: 42px;
+        }
+
+        .caja-1a h2 {
+            text-align: end;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: azure;
+            border-radius: 40px;
+            padding-right: 40px;
+            font-size: 32px;
+            overflow-x: scroll;
+        }
+
+        .caja-1b {
+            border: 3px solid black;
+            border-radius: 40px;
+            margin: 20px;
+            padding-left: 10px;
+            background-color: blanchedalmond;
+        }
+
+        .caja-1b {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+        }
+
+        .caja-1b button {
+            width: 100px;
+            font-size: 32px;
+            margin: 4px;
+            border-radius: 60px;
+            border: 3px solid black;
+            box-shadow: 12px 12px 12px darkcyan;
+        }
+
+        button:hover {
+            background-color: black;
+            color: aquamarine;
+        }
+
+        #operador-button {
+            background-color: rgb(212, 134, 134);
+        }
+
+        #operador-button:hover {
+            background-color: rgb(69, 42, 165);
+        }
+
+        #botones-otros {
+            background-color: rgb(161, 142, 142);
+        }
+
+        #botones-otros:hover {
+            background-color: rgb(11, 10, 14);
+        }
+
+        #boton-resultado {
+            background-color: burlywood;
+        }
+
+        #boton-resultado:hover {
+            background-color: rgb(49, 28, 1);
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="caja-1">
+        <div class="caja-1a">
+            <h1>Mi calculadora</h1>
+            <h2 id="display">0</h2>
+        </div>
+        <div class="caja-1b">
+            <button onclick="agregarNumero('7') ">7</button>
+            <button onclick="agregarNumero('8')">8</button>
+            <button onclick="agregarNumero('9')">9</button>
+            <button id="operador-button" onclick="operacion('/')">&divide;</button>
+            <button onclick="agregarNumero('6')">6</button>
+            <button onclick="agregarNumero('5')">5</button>
+            <button onclick="agregarNumero('4')">4</button>
+            <button id="operador-button" onclick="operacion('*')">x</button>
+            <button onclick="agregarNumero('1')">1</button>
+            <button onclick="agregarNumero('2')">2</button>
+            <button onclick="agregarNumero('3')">3</button>
+            <button id="operador-button" onclick="operacion('-')">-</button>
+            <button onclick="agregarNumero('0')">0</button>
+            <button onclick="agregarNumero('.')">,</button>
+            <button id="operador-button" onclick="operacion('masmenos')">&plusmn;</button>
+            <button id="operador-button" onclick="operacion('+')">+</button>
+            <button id="operador-button" onclick="operacion('porcentaje')" ">%</button>
+            <button onclick=" limpiar()" id="botones-otros">C</button>
+            <button onclick="borrarUltimo()" id="botones-otros">&#x232B;</button>
+            <button id="boton-resultado" onclick="resultado()">=</button>
+        </div>
+    </div>
+
+    <!-- <script src="index.js"></script>-->
+    <script>
+        const display = document.getElementById("display");
+        var numero1 = 0;
+        var numero2 = 0;
+        let sOperador;
+
+        function agregarNumero(numero) {
+            if (display.textContent === "0") {
+                display.textContent = numero;
+                if (numero === ".") {
+                    display.textContent = "0" + numero;
+                }
+            }
+            else {
+                if (display.textContent.includes(".") && numero === ".") {
+                    alert("No puedes agregar mas comas décimales.")
+                }
+                else {
+                    display.textContent += numero;
+                }
+            }
+        }
+
+        function operacion(operador) {
+            sOperador = operador;
+            numero1 = Number(display.textContent);
+            if (operador === "masmenos") {
+                numero1 = numero1 * (-1);
+                display.textContent = String(numero1);
+            }
+            else if (operador === "+") {
+                numero2 = numero1;
+                limpiar();
+            }
+            else if (operador === "-") {
+                numero2 = numero1;
+                limpiar();
+            }
+            else if (operador === "*") {
+                numero2 = numero1;
+                limpiar();
+            }
+            else if (operador === "/") {
+                numero2 = numero1;
+                limpiar();
+            }
+            else if (operador === "porcentaje") {
+                numero2 = numero1;
+                limpiar();
+            }
+        }
+
+        function resultado() {
+            let resultado;
+            numero1 = Number(display.textContent);
+            if (sOperador === "+") {
+                resultado = numero1 + numero2;
+                display.textContent = String(resultado);
+                numero1 = Number(resultado);
+            }
+            else if (sOperador === "-") {
+                resultado = numero2 - numero1;
+                display.textContent = String(resultado);
+                numero1 = Number(resultado);
+            }
+            else if (sOperador === "*") {
+                resultado = numero2 * numero1;
+                display.textContent = String(resultado);
+                numero1 = Number(resultado);
+            }
+            else if (sOperador === "/") {
+                if (numero1 === 0) {
+                    alert("No se puede dividir por 0")
+                }
+                else {
+                    resultado = numero2 / numero1;
+                    display.textContent = String(resultado);
+                    numero1 = Number(resultado);
+                }
+            }
+            else if (sOperador === "porcentaje") {
+                resultado = numero2 * numero1 / 100;
+                display.textContent = String(resultado);
+                numero1 = Number(resultado);
+            }
+        }
+        function limpiar() {
+            display.textContent = 0;
+            display.innerHTML = 0;
+        }
+        function borrarUltimo() {
+            if (display.textContent.length >= 1) {
+                display.textContent = String(display.textContent).slice(0, -1);
+            }
+        }  
+    </script>
+</body>
+
+</html>
